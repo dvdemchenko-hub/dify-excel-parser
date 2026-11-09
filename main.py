@@ -9,7 +9,11 @@ async def analyze_excel(file: UploadFile = File(...)):
     contents = await file.read()
     df_raw = pd.read_excel(io.BytesIO(contents), header=None)
     df_data = df_raw.iloc[15:].copy()
-    
+    return {
+        "status": "success",
+        "total_rows_processed": len(df_data),
+        "columns_count": len(df_data.columns)
+    }
     mo_col_idx, ind_col_idx, obj_col_idx = 0, 1, 3
     staff_col_idx, phys_col_idx = 5, 12
     plan_col_idx, fact_col_idx = 16, 17
